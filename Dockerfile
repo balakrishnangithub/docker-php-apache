@@ -3,7 +3,7 @@ FROM php:5.6-apache
 RUN a2enmod rewrite expires
 
 # install the PHP extensions we need
-RUN apt-get update && docker-php-ext-install mysqli opcache
+RUN apt-get update && apt-get install -y nano && docker-php-ext-install mysqli opcache
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
