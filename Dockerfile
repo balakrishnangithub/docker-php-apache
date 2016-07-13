@@ -14,9 +14,7 @@ RUN { \
 		echo 'opcache.revalidate_freq=60'; \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
-	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
-
-RUN { \
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini && { \
 		echo 'max_execution_time=300'; \
 		echo 'upload_max_filesize=1000M'; \
 	} > /usr/local/etc/php/conf.d/custom-php.ini
