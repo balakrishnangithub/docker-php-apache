@@ -17,6 +17,7 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini && { \
 		echo 'max_execution_time=300'; \
 		echo 'upload_max_filesize=1000M'; \
+		echo 'max_file_uploads=1000'; \
 	} > /usr/local/etc/php/conf.d/custom-php.ini
 
 VOLUME /var/www/html
