@@ -1,12 +1,13 @@
 FROM php:5.6-apache
 
-RUN a2enmod rewrite expires
+RUN docker-php-source extract \
+&& apt-get update \
+&& apt-get install libmcrypt-dev libldap2-dev nano -y \
+&& rm -rf /var/lib/apt/lists/* \
+&& docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
+&& docker-php-ext-install ldap mysqli opcache \
+&& docker-php-source delete
 
-# install the PHP extensions we need
-RUN apt-get update && apt-get install -y nano && docker-php-ext-install mysqli opcache
-
-# set recommended PHP.ini settings
-# see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
 		echo 'opcache.memory_consumption=128'; \
 		echo 'opcache.interned_strings_buffer=8'; \
@@ -18,6 +19,9 @@ RUN { \
 		echo 'max_execution_time=300'; \
 		echo 'upload_max_filesize=1000M'; \
 		echo 'max_file_uploads=1000'; \
+		echo 'post_max_size=1000M'; \
 	} > /usr/local/etc/php/conf.d/custom-php.ini
+
+ADD index.php /var/www/html
 
 VOLUME /var/www/html
