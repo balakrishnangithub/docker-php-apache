@@ -6,7 +6,8 @@ RUN docker-php-source extract \
 && rm -rf /var/lib/apt/lists/* \
 && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
 && docker-php-ext-install ldap mysqli opcache \
-&& docker-php-source delete
+&& docker-php-source delete \
+&& a2enmod rewrite headers
 
 RUN { \
 		echo 'opcache.memory_consumption=128'; \
