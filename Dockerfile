@@ -6,8 +6,13 @@ RUN docker-php-source extract \
 && rm -rf /var/lib/apt/lists/* \
 && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
 && docker-php-ext-install ldap mysqli opcache \
+&& pecl install redis-3.1.0 \
+&& pecl install xdebug-2.5.0 \
+&& docker-php-ext-enable redis xdebug \
 && docker-php-source delete \
 && a2enmod rewrite headers
+
+ARG DEV_HOST='localhost'
 
 RUN { \
 		echo 'opcache.memory_consumption=128'; \
@@ -21,6 +26,8 @@ RUN { \
 		echo 'upload_max_filesize=1000M'; \
 		echo 'max_file_uploads=1000'; \
 		echo 'post_max_size=1000M'; \
+		echo 'xdebug.remote_enable=1'; \
+		echo 'xdebug.remote_host='$DEV_HOST; \
 	} > /usr/local/etc/php/conf.d/custom-php.ini
 
 ADD index.php /var/www/html
