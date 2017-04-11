@@ -12,7 +12,7 @@ RUN docker-php-source extract \
 && docker-php-source delete \
 && a2enmod rewrite headers
 
-ARG DEV_HOST='localhost'
+ARG XDEBUG_REMOTE_HOST='localhost'
 
 RUN { \
 		echo 'opcache.memory_consumption=128'; \
@@ -27,7 +27,7 @@ RUN { \
 		echo 'max_file_uploads=1000'; \
 		echo 'post_max_size=1000M'; \
 		echo 'xdebug.remote_enable=1'; \
-		echo 'xdebug.remote_host='$DEV_HOST; \
+		echo 'xdebug.remote_host='$XDEBUG_REMOTE_HOST; \
 	} > /usr/local/etc/php/conf.d/custom-php.ini
 
 ADD index.php /var/www/html
